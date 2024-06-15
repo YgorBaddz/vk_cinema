@@ -11,6 +11,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       <img src={movie.Poster} alt={movie.Title} />
       <h2>{movie.Title}</h2>
       <p>{movie.Year}</p>
+      <p>Rating: {movie.imdbRating}</p>
 
       <Link to={`/movie/${movie.imdbID}`}>
         <button>Learn More</button>

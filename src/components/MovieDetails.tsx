@@ -15,20 +15,20 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState<Movie | null>(null);
 
   useEffect(() => {
-    // axios
-    //   .get(`http://www.omdbapi.com/?i=${id}&apikey=${APIKey}`)
-    //   .then((res) => {
-    //     setMovie(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios
+      .get(`http://www.omdbapi.com/?i=${id}&apikey=${APIKey}`)
+      .then((res) => {
+        setMovie(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     //Фейковые детали
-    const fakeMovie = fakeMovies.find((movie) => movie.imdbID === id);
-    if (fakeMovie) {
-      setMovie(fakeMovie);
-    }
+    // const fakeMovie = fakeMovies.find((movie) => movie.imdbID === id);
+    // if (fakeMovie) {
+    //   setMovie(fakeMovie);
+    // }
   }, [id]);
   return (
     <div>

@@ -15,16 +15,30 @@ function App() {
   const fetchMovies = async () => {
     setLoading(true);
 
-    // const response = await axios.get(
-    //   `http://www.omdbapi.com/?s=movie&apikey=${APIKey}&page=${currentPage}`
-    // );
+    const response = await axios.get(
+      `http://www.omdbapi.com/?s=movie&apikey=${APIKey}&page=${currentPage}`
+    );
 
-    // setMovies(response.data.Search);
-    // setTotalItems(response.data.totalResults);
+    const movieDetails = await Promise.all(
+      response.data.Search.map(async (movie: any) => {
+        const detailsResponse = await axios.get(
+          `http://www.omdbapi.com/?i=${movie.imdbID}&apikey=${APIKey}`
+        );
+        return {
+          ...movie,
+          Poster: detailsResponse.data.Poster,
+          Title: detailsResponse.data.Title,
+          Year: detailsResponse.data.Year,
+          imdbRating: detailsResponse.data.imdbRating,
+          Released: detailsResponse.data.Released,
+          Genre: detailsResponse.data.Genre,
+          Plot: detailsResponse.data.Plot,
+        };
+      })
+    );
 
-    //Тестируем на фейковых данных чтобы не тратить free tier запросы
-    setMovies(fakeMovies);
-    setTotalItems(fakeMovies.length);
+    setMovies(movieDetails);
+    setTotalItems(response.data.totalResults);
 
     setLoading(false);
   };
