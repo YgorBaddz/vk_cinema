@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Movie } from "../types/Types";
+import MovieCard from "./MovieCard";
 
 type MovieListProps = {
   movies: Movie[];
@@ -7,19 +8,11 @@ type MovieListProps = {
 
 const MovieList: React.FC<MovieListProps> = ({ movies }) => {
   return (
-    <ul>
+    <div className="flex flex-wrap justify-center w-full gap-8">
       {movies.map((movie, id) => (
-        <li key={id}>
-          <img src={movie.Poster} alt={movie.Title} />
-          <h2>{movie.Title}</h2>
-          <p>{movie.Year}</p>
-
-          <Link to={`/movie/${movie.imdbID}`}>
-            <button>Learn More</button>
-          </Link>
-        </li>
+        <MovieCard key={id} movie={movie} />
       ))}
-    </ul>
+    </div>
   );
 };
 

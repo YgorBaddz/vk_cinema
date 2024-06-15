@@ -15,16 +15,16 @@ function App() {
   const fetchMovies = async () => {
     setLoading(true);
 
-    const response = await axios.get(
-      `http://www.omdbapi.com/?s=movie&apikey=${APIKey}&page=${currentPage}`
-    );
+    // const response = await axios.get(
+    //   `http://www.omdbapi.com/?s=movie&apikey=${APIKey}&page=${currentPage}`
+    // );
 
-    setMovies(response.data.Search);
-    setTotalItems(response.data.totalResults);
+    // setMovies(response.data.Search);
+    // setTotalItems(response.data.totalResults);
 
     //Тестируем на фейковых данных чтобы не тратить free tier запросы
-    // setMovies(fakeMovies);
-    // setTotalItems(fakeMovies.length);
+    setMovies(fakeMovies);
+    setTotalItems(fakeMovies.length);
 
     setLoading(false);
   };
@@ -39,20 +39,24 @@ function App() {
   };
 
   return (
-    <main className="">
-      {loading ? (
-        <div className="">Loading...</div>
-      ) : (
-        <div className="">
-          <Pagination
-            currentPage={currentPage}
-            totalItems={totalItems}
-            onPageChange={handlePageChange}
-          />
+    <main className=" w-screen h-screen flex justify-center ">
+      <div className=" w-4/5 flex justify-center px-2 py-6">
+        {loading ? (
+          <div className="">Loading...</div>
+        ) : (
+          <div className="w-full ">
+            <Pagination
+              currentPage={currentPage}
+              totalItems={totalItems}
+              onPageChange={handlePageChange}
+            />
 
-          <MovieList movies={movies} />
-        </div>
-      )}
+            <div className="h-screen overflow-y-auto">
+              <MovieList movies={movies} />
+            </div>
+          </div>
+        )}
+      </div>
     </main>
   );
 }
