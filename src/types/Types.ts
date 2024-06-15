@@ -2,5 +2,9 @@ export type Movie = {
   Title: string;
   Year: string;
   Poster: string;
-  imdbRating: string;
+  imdbID: string;
+  imdbRating?: string;
+  Released?: string;
+  Genre?: string;
+  Plot?: string;
 };

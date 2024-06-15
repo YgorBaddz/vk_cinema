@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Movie } from "../types/Types";
 
 type MovieListProps = {
@@ -12,7 +13,10 @@ const MovieList: React.FC<MovieListProps> = ({ movies }) => {
           <img src={movie.Poster} alt={movie.Title} />
           <h2>{movie.Title}</h2>
           <p>{movie.Year}</p>
-          <p>{movie.imdbRating}</p>
+
+          <Link to={`/movie/${movie.imdbID}`}>
+            <button>Learn More</button>
+          </Link>
         </li>
       ))}
     </ul>

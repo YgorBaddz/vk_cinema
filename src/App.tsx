@@ -4,15 +4,17 @@ import axios from "axios";
 import Pagination from "./components/Pagination";
 import MovieList from "./components/MovieList";
 import { fakeMovies } from "./helpers/FakeData";
+import { APIKey } from "./api/APIKey";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-
-  const APIKey = 51597491;
+  const [loading, setLoading] = useState(false);
 
   const fetchMovies = async () => {
+    setLoading(true);
+
     const response = await axios.get(
       `http://www.omdbapi.com/?s=movie&apikey=${APIKey}&page=${currentPage}`
     );
@@ -23,6 +25,8 @@ function App() {
     //Тестируем на фейковых данных чтобы не тратить free tier запросы
     // setMovies(fakeMovies);
     // setTotalItems(fakeMovies.length);
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -36,13 +40,19 @@ function App() {
 
   return (
     <main className="">
-      <Pagination
-        currentPage={currentPage}
-        totalItems={totalItems}
-        onPageChange={handlePageChange}
-      />
+      {loading ? (
+        <div className="">Loading...</div>
+      ) : (
+        <div className="">
+          <Pagination
+            currentPage={currentPage}
+            totalItems={totalItems}
+            onPageChange={handlePageChange}
+          />
 
-      <MovieList movies={movies} />
+          <MovieList movies={movies} />
+        </div>
+      )}
     </main>
   );
 }

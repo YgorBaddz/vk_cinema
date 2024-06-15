@@ -42,7 +42,7 @@ const Pagination: React.FC<PaginationProps> = ({
         {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
           <li key={index}>
             <p
-              onClick={(e) => handlePageClick(startPage + index)}
+              onClick={() => handlePageClick(startPage + index)}
               className={currentPage === startPage + index ? "active" : ""}
             >
               {startPage + index}
