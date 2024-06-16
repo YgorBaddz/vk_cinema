@@ -9,13 +9,11 @@ import MovieFilter from "./components/MovieFilter";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [loading, setLoading] = useState(false);
   const [searchString, setSearchString] = useState("");
-  const [genreFilter, setGenreFilter] = useState("");
-  const [yearFilter, setYearFilter] = useState("");
-  const [ratingFilter, setRatingFilter] = useState("");
 
   const fetchMovies = async () => {
     setLoading(true);
@@ -45,6 +43,7 @@ function App() {
         );
 
         setMovies(movieDetails);
+        setFilteredMovies(movieDetails);
         setTotalItems(response.data.totalResults);
       } else {
         console.error("No movie data found in the response");
@@ -61,6 +60,8 @@ function App() {
   }, [currentPage]);
 
   const handlePageChange = (page: number) => {
+    setSearchString("");
+    setFilteredMovies([]);
     setCurrentPage(page);
     fetchMovies();
   };
@@ -71,7 +72,7 @@ function App() {
       const response = await axios.get(
         `https://www.omdbapi.com/?s=${searchString}&apikey=${APIKey}`
       );
-      setMovies(response.data.Search);
+      setFilteredMovies(response.data.Search);
     } catch (error) {
       console.error(error);
     }
@@ -96,9 +97,13 @@ function App() {
               handleSearch={handleSearch}
             />
 
-            <div className="h-screen overflow-y-auto">
-              <MovieList movies={movies} />
-            </div>
+            {searchString ? (
+              <div className=""></div>
+            ) : (
+              <div className="h-screen overflow-y-auto">
+                <MovieList movies={movies} />
+              </div>
+            )}
           </div>
         )}
       </div>
