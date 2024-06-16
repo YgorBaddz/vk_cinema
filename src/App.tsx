@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { Movie } from "./types/Types";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import Pagination from "./components/Pagination";
-import MovieList from "./components/MovieList";
-import { fakeMovies } from "./helpers/FakeData";
+import { Movie } from "./types/Types";
 import { APIKey } from "./api/APIKey";
+import Pagination from "./components/Pagination";
 import MovieFilter from "./components/MovieFilter";
+import MovieList from "./components/MovieList";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -14,6 +13,7 @@ function App() {
   const [totalItems, setTotalItems] = useState(0);
   const [loading, setLoading] = useState(false);
   const [searchString, setSearchString] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("");
 
   const fetchMovies = async () => {
     setLoading(true);
@@ -59,6 +59,10 @@ function App() {
     fetchMovies();
   }, [currentPage]);
 
+  useEffect(() => {
+    filterMoviesByGenre();
+  }, [movies, selectedGenre]);
+
   const handlePageChange = (page: number) => {
     setSearchString("");
     setFilteredMovies([]);
@@ -79,6 +83,21 @@ function App() {
     setLoading(false);
   };
 
+  const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedGenre(e.target.value);
+    filterMoviesByGenre();
+  };
+
+  const filterMoviesByGenre = () => {
+    if (selectedGenre === "") {
+      setFilteredMovies(movies);
+    } else {
+      setFilteredMovies(
+        movies.filter((movie) => movie.Genre.includes(selectedGenre))
+      );
+    }
+  };
+
   return (
     <main className=" w-screen h-screen flex justify-center ">
       <div className=" w-4/5 flex justify-center px-2 py-6">
@@ -95,13 +114,15 @@ function App() {
               searchString={searchString}
               setSearchString={setSearchString}
               handleSearch={handleSearch}
+              selectedGenre={selectedGenre}
+              setSelectedGenre={setSelectedGenre}
             />
 
             {searchString ? (
               <div className=""></div>
             ) : (
               <div className="h-screen overflow-y-auto">
-                <MovieList movies={movies} />
+                <MovieList movies={filteredMovies} />
               </div>
             )}
           </div>
