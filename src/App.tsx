@@ -63,7 +63,7 @@ function App() {
 
   useEffect(() => {
     filterMoviesByGenreAndYearAndRating();
-  }, [movies, selectedGenre, selectedYear, selectedRating]);
+  }, [movies, selectedGenre, selectedYear, selectedRating, searchString]);
 
   const handlePageChange = (page: number) => {
     setSearchString("");
@@ -79,6 +79,7 @@ function App() {
         `https://www.omdbapi.com/?s=${searchString}&apikey=${APIKey}`
       );
       setFilteredMovies(response.data.Search);
+      filterMoviesByGenreAndYearAndRating();
     } catch (error) {
       console.error(error);
     }
@@ -118,6 +119,12 @@ function App() {
     if (selectedRating !== "") {
       filteredMovies = filteredMovies.filter(
         (movie) => parseFloat(movie.imdbRating) === parseFloat(selectedRating)
+      );
+    }
+
+    if (searchString !== "") {
+      filteredMovies = filteredMovies.filter((movie) =>
+        movie.Title.toLowerCase().includes(searchString.toLowerCase())
       );
     }
 

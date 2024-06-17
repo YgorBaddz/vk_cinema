@@ -1,20 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MovieList from "./MovieList";
-import { Movie } from "../types/Types";
+import { Movie, MovieFilterProps } from "../types/Types";
 import { APIKey } from "../api/APIKey";
-
-interface MovieFilterProps {
-  searchString: string;
-  setSearchString: (searchString: string) => void;
-  handleSearch: () => void;
-  selectedGenre: string;
-  setSelectedGenre: (selectedGenre: string) => void;
-  selectedYear: string;
-  setSelectedYear: (selectedYear: string) => void;
-  selectedRating: string;
-  setSelectedRating: (selectedRating: string) => void;
-}
 
 const MovieFilter: React.FC<MovieFilterProps> = ({
   searchString,
@@ -27,6 +15,7 @@ const MovieFilter: React.FC<MovieFilterProps> = ({
   selectedRating,
   setSelectedRating,
 }) => {
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchString(e.target.value);
   };
@@ -42,6 +31,41 @@ const MovieFilter: React.FC<MovieFilterProps> = ({
   const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedRating(e.target.value);
   };
+
+  useEffect(() => {
+    const filterMovies = async () => {
+      try {
+        const response = await axios.get(
+          `https://www.omdbapi.com/?s=${searchString}&apikey=${APIKey}`
+        );
+
+        if (response.data.Search) {
+          const movieDetails = await Promise.all(
+            response.data.Search.map(async (movie: any) => {
+              const detailsResponse = await axios.get(
+                `http://www.omdbapi.com/?i=${movie.imdbID}&apikey=${APIKey}`
+              );
+              return {
+                ...movie,
+                Poster: detailsResponse.data.Poster,
+                Title: detailsResponse.data.Title,
+                Year: detailsResponse.data.Year,
+                imdbRating: detailsResponse.data.imdbRating,
+                Released: detailsResponse.data.Released,
+                Genre: detailsResponse.data.Genre,
+                Plot: detailsResponse.data.Plot,
+              };
+            })
+          );
+          setFilteredMovies(movieDetails);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    filterMovies();
+  }, [searchString]);
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -62,7 +86,25 @@ const MovieFilter: React.FC<MovieFilterProps> = ({
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All genres</option>
-          {/* Genre options */}
+          <option value="Action">Action</option>
+          <option value="Adventure">Adventure</option>
+          <option value="Animation">Animation</option>
+          <option value="Biography">Biography</option>
+          <option value="Comedy">Comedy</option>
+          <option value="Crime">Crime</option>
+          <option value="Documentary">Documentary</option>
+          <option value="Drama">Drama</option>
+          <option value="Family">Family</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="History">History</option>
+          <option value="Horror">Horror</option>
+          <option value="Music">Music</option>
+          <option value="Mystery">Mystery</option>
+          <option value="Romance">Romance</option>
+          <option value="Sci-Fi">Sci-Fi</option>
+          <option value="Sport">Sport</option>
+          <option value="Thriller">Thriller</option>
+          <option value="War">War</option>
         </select>
       </div>
 
@@ -85,6 +127,12 @@ const MovieFilter: React.FC<MovieFilterProps> = ({
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
+
+      {filteredMovies && filteredMovies.length > 0 ? (
+        <MovieList movies={filteredMovies} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
