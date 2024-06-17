@@ -56,7 +56,7 @@ const MovieFilter: React.FC<MovieFilterProps> = ({
   }, [searchString]);
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center gap-2 mb-2">
       <SearchFilter
         searchString={searchString}
         setSearchString={setSearchString}

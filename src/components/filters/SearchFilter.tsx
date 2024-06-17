@@ -12,7 +12,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
   };
 
   return (
-    <div className="w-full max-w-md mb-8">
+    <div className="w-full max-w-md ">
       <input
         type="text"
         placeholder="Search for a movie"

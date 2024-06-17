@@ -12,7 +12,7 @@ const GenreFilter: React.FC<GenreFilterProps> = ({
   };
 
   return (
-    <div className="w-full max-w-md mb-8">
+    <div className="w-full max-w-md ">
       <select
         value={selectedGenre}
         onChange={handleGenreChange}

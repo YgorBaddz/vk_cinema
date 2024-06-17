@@ -12,7 +12,7 @@ const YearFilter: React.FC<YearFilterProps> = ({
   };
 
   return (
-    <div className="w-full max-w-md mb-8">
+    <div className="w-full max-w-md">
       <input
         type="text"
         placeholder="Filter by year"
