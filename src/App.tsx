@@ -5,6 +5,7 @@ import { APIKey } from "./api/APIKey";
 import Pagination from "./components/Pagination";
 import MovieFilter from "./components/MovieFilter";
 import MovieList from "./components/MovieList";
+import NoMoviesFound from "./components/NoMoviesFound";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -155,12 +156,12 @@ function App() {
               setSelectedRating={setSelectedRating}
             />
 
-            {searchString ? (
-              <div className=""></div>
-            ) : (
+            {filteredMovies.length > 0 ? (
               <div className="h-screen overflow-y-auto">
                 <MovieList movies={filteredMovies} />
               </div>
+            ) : (
+              <NoMoviesFound />
             )}
           </div>
         )}
