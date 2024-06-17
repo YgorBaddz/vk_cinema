@@ -73,20 +73,6 @@ function App() {
     fetchMovies();
   };
 
-  const handleSearch = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `https://www.omdbapi.com/?s=${searchString}&apikey=${APIKey}`
-      );
-      setFilteredMovies(response.data.Search);
-      filterMoviesByGenreAndYearAndRating();
-    } catch (error) {
-      console.error(error);
-    }
-    setLoading(false);
-  };
-
   const filterMoviesByGenreAndYearAndRating = () => {
     let filteredMovies = movies;
 

@@ -15,7 +15,6 @@ const MovieFilter: React.FC<MovieFilterProps> = ({
   setSelectedRating,
 }) => {
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
-  const [filterVisible, setFilterVisible] = useState(false);
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchString(e.target.value);
