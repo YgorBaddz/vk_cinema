@@ -12,7 +12,6 @@ export type Movie = {
 export type MovieFilterProps = {
   searchString: string;
   setSearchString: (searchString: string) => void;
-  handleSearch: () => void;
   selectedGenre: string;
   setSelectedGenre: (selectedGenre: string) => void;
   selectedYear: string;

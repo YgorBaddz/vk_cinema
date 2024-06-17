@@ -87,21 +87,6 @@ function App() {
     setLoading(false);
   };
 
-  const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedGenre(e.target.value);
-    filterMoviesByGenreAndYearAndRating();
-  };
-
-  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedYear(e.target.value);
-    filterMoviesByGenreAndYearAndRating();
-  };
-
-  const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedRating(e.target.value);
-    filterMoviesByGenreAndYearAndRating();
-  };
-
   const filterMoviesByGenreAndYearAndRating = () => {
     let filteredMovies = movies;
 
@@ -147,7 +132,6 @@ function App() {
             <MovieFilter
               searchString={searchString}
               setSearchString={setSearchString}
-              handleSearch={handleSearch}
               selectedGenre={selectedGenre}
               setSelectedGenre={setSelectedGenre}
               selectedYear={selectedYear}

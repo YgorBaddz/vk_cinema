@@ -7,7 +7,6 @@ import { APIKey } from "../api/APIKey";
 const MovieFilter: React.FC<MovieFilterProps> = ({
   searchString,
   setSearchString,
-  handleSearch,
   selectedGenre,
   setSelectedGenre,
   selectedYear,
