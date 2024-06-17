@@ -8,7 +8,7 @@ type MovieCardProps = {
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   return (
     <Link to={`/movie/${movie.imdbID}`}>
-      <div className="w-[300px] h-[660px] rounded-xl p-2 bg-[#0077FF] hover:-translate-y-1 hover:shadow-md hover:shadow-white transition-all duration-[100ms]">
+      <div className="w-full md:w-[300px]  h-[660px] rounded-xl p-2 bg-[#0077FF] hover:-translate-y-1 shadow-lg shadow-black hover:shadow-white transition-all duration-[100ms]">
         <div className="h-[450px] w-full">
           <img
             src={movie.Poster}

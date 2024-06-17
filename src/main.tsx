@@ -8,7 +8,7 @@ import MovieDetails from "./pages/MovieDetails.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Router>
-      <div className="w-screen h-screen overflow-hidden flex justify-center bg-[#2e0046]">
+      <div className="w-screen min-h-screen flex justify-center bg-[#004696] relative">
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/movie/:id" element={<MovieDetails />} />

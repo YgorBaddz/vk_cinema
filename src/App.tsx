@@ -105,7 +105,7 @@ function App() {
   };
 
   return (
-    <main className=" w-4/5 flex justify-center px-2 py-6">
+    <main className=" w-4/5 flex justify-center px-2 py-2">
       {loading ? (
         <Loading />
       ) : (
@@ -125,8 +125,8 @@ function App() {
             selectedRating={selectedRating}
             setSelectedRating={setSelectedRating}
           />
-          {filteredMovies.length > 0 ? (
-            <div className="h-screen overflow-y-auto">
+          {filteredMovies.length > 0 || searchString ? (
+            <div className="">
               <MovieList movies={filteredMovies} />
             </div>
           ) : (
