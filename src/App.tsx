@@ -5,7 +5,8 @@ import { APIKey } from "./api/APIKey";
 import Pagination from "./components/Pagination";
 import MovieFilter from "./components/MovieFilter";
 import MovieList from "./components/MovieList";
-import NoMoviesFound from "./components/NoMoviesFound";
+import NoMoviesFound from "./components/helpers/NoMoviesFound";
+import Loading from "./components/helpers/Loading";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -104,37 +105,35 @@ function App() {
   };
 
   return (
-    <main className=" w-screen h-screen flex justify-center ">
-      <div className=" w-4/5 flex justify-center px-2 py-6">
-        {loading ? (
-          <div className="">Loading...</div>
-        ) : (
-          <div className="w-full">
-            <Pagination
-              currentPage={currentPage}
-              totalItems={totalItems}
-              onPageChange={handlePageChange}
-            />
-            <MovieFilter
-              searchString={searchString}
-              setSearchString={setSearchString}
-              selectedGenre={selectedGenre}
-              setSelectedGenre={setSelectedGenre}
-              selectedYear={selectedYear}
-              setSelectedYear={setSelectedYear}
-              selectedRating={selectedRating}
-              setSelectedRating={setSelectedRating}
-            />
-            {filteredMovies.length > 0 ? (
-              <div className="h-screen overflow-y-auto">
-                <MovieList movies={filteredMovies} />
-              </div>
-            ) : (
-              <NoMoviesFound />
-            )}
-          </div>
-        )}
-      </div>
+    <main className=" w-4/5 flex justify-center px-2 py-6">
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="w-full">
+          <Pagination
+            currentPage={currentPage}
+            totalItems={totalItems}
+            onPageChange={handlePageChange}
+          />
+          <MovieFilter
+            searchString={searchString}
+            setSearchString={setSearchString}
+            selectedGenre={selectedGenre}
+            setSelectedGenre={setSelectedGenre}
+            selectedYear={selectedYear}
+            setSelectedYear={setSelectedYear}
+            selectedRating={selectedRating}
+            setSelectedRating={setSelectedRating}
+          />
+          {filteredMovies.length > 0 ? (
+            <div className="h-screen overflow-y-auto">
+              <MovieList movies={filteredMovies} />
+            </div>
+          ) : (
+            <NoMoviesFound />
+          )}
+        </div>
+      )}
     </main>
   );
 }
