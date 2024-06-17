@@ -18,6 +18,12 @@ function App() {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedRating, setSelectedRating] = useState("");
 
+  const [filterVisible, setFilterVisible] = useState(false);
+
+  const handleFilterToggle = () => {
+    setFilterVisible(!filterVisible);
+  };
+
   const fetchMovies = async () => {
     setLoading(true);
 
@@ -138,24 +144,36 @@ function App() {
         {loading ? (
           <div className="">Loading...</div>
         ) : (
-          <div className="w-full ">
+          <div className="w-full">
             <Pagination
               currentPage={currentPage}
               totalItems={totalItems}
               onPageChange={handlePageChange}
             />
-            <MovieFilter
-              searchString={searchString}
-              setSearchString={setSearchString}
-              handleSearch={handleSearch}
-              selectedGenre={selectedGenre}
-              setSelectedGenre={setSelectedGenre}
-              selectedYear={selectedYear}
-              setSelectedYear={setSelectedYear}
-              selectedRating={selectedRating}
-              setSelectedRating={setSelectedRating}
-            />
-
+            <button
+              className="fixed bottom-0 right-0 m-4 p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={handleFilterToggle}
+            >
+              Filter
+            </button>
+            {filterVisible && (
+              <div
+                className="fixed bottom-0 right-0 m-4 p-2 bg-white shadow-md rounded"
+                style={{ width: "300px" }}
+              >
+                <MovieFilter
+                  searchString={searchString}
+                  setSearchString={setSearchString}
+                  handleSearch={handleSearch}
+                  selectedGenre={selectedGenre}
+                  setSelectedGenre={setSelectedGenre}
+                  selectedYear={selectedYear}
+                  setSelectedYear={setSelectedYear}
+                  selectedRating={selectedRating}
+                  setSelectedRating={setSelectedRating}
+                />
+              </div>
+            )}
             {filteredMovies.length > 0 ? (
               <div className="h-screen overflow-y-auto">
                 <MovieList movies={filteredMovies} />
