@@ -14,6 +14,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [searchString, setSearchString] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
 
   const fetchMovies = async () => {
     setLoading(true);
@@ -60,8 +61,8 @@ function App() {
   }, [currentPage]);
 
   useEffect(() => {
-    filterMoviesByGenre();
-  }, [movies, selectedGenre]);
+    filterMoviesByGenreAndYear();
+  }, [movies, selectedGenre, selectedYear]);
 
   const handlePageChange = (page: number) => {
     setSearchString("");
@@ -85,17 +86,30 @@ function App() {
 
   const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedGenre(e.target.value);
-    filterMoviesByGenre();
+    filterMoviesByGenreAndYear();
   };
 
-  const filterMoviesByGenre = () => {
-    if (selectedGenre === "") {
-      setFilteredMovies(movies);
-    } else {
-      setFilteredMovies(
-        movies.filter((movie) => movie.Genre.includes(selectedGenre))
+  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedYear(e.target.value);
+    filterMoviesByGenreAndYear();
+  };
+
+  const filterMoviesByGenreAndYear = () => {
+    let filteredMovies = movies;
+
+    if (selectedGenre !== "") {
+      filteredMovies = filteredMovies.filter((movie) =>
+        movie.Genre.includes(selectedGenre)
       );
     }
+
+    if (selectedYear !== "") {
+      filteredMovies = filteredMovies.filter((movie) =>
+        movie.Year.includes(selectedYear)
+      );
+    }
+
+    setFilteredMovies(filteredMovies);
   };
 
   return (
@@ -116,6 +130,8 @@ function App() {
               handleSearch={handleSearch}
               selectedGenre={selectedGenre}
               setSelectedGenre={setSelectedGenre}
+              selectedYear={selectedYear}
+              setSelectedYear={setSelectedYear}
             />
 
             {searchString ? (

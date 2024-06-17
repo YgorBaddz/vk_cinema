@@ -10,6 +10,8 @@ interface MovieFilterProps {
   handleSearch: () => void;
   selectedGenre: string;
   setSelectedGenre: (selectedGenre: string) => void;
+  selectedYear: string;
+  setSelectedYear: (selectedYear: string) => void;
 }
 
 const MovieFilter: React.FC<MovieFilterProps> = ({
@@ -18,9 +20,9 @@ const MovieFilter: React.FC<MovieFilterProps> = ({
   handleSearch,
   selectedGenre,
   setSelectedGenre,
+  selectedYear,
+  setSelectedYear,
 }) => {
-  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
-
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchString(e.target.value);
   };
@@ -29,49 +31,9 @@ const MovieFilter: React.FC<MovieFilterProps> = ({
     setSelectedGenre(e.target.value);
   };
 
-  useEffect(() => {
-    const filterMovies = async () => {
-      try {
-        const response = await axios.get(
-          `https://www.omdbapi.com/?s=${searchString}&apikey=${APIKey}`
-        );
-
-        if (response.data.Search) {
-          const movieDetails = await Promise.all(
-            response.data.Search.map(async (movie: any) => {
-              const detailsResponse = await axios.get(
-                `http://www.omdbapi.com/?i=${movie.imdbID}&apikey=${APIKey}`
-              );
-              return {
-                ...movie,
-                Poster: detailsResponse.data.Poster,
-                Title: detailsResponse.data.Title,
-                Year: detailsResponse.data.Year,
-                imdbRating: detailsResponse.data.imdbRating,
-                Released: detailsResponse.data.Released,
-                Genre: detailsResponse.data.Genre,
-                Plot: detailsResponse.data.Plot,
-              };
-            })
-          );
-
-          if (selectedGenre === "") {
-            setFilteredMovies(movieDetails);
-          } else {
-            setFilteredMovies(
-              movieDetails.filter((movie) =>
-                movie.Genre.includes(selectedGenre)
-              )
-            );
-          }
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    filterMovies();
-  }, [searchString, selectedGenre]);
+  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedYear(e.target.value);
+  };
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -114,11 +76,15 @@ const MovieFilter: React.FC<MovieFilterProps> = ({
         </select>
       </div>
 
-      {filteredMovies && filteredMovies.length > 0 ? (
-        <MovieList movies={filteredMovies} />
-      ) : (
-        ""
-      )}
+      <div className="w-full max-w-md mb-8">
+        <input
+          type="text"
+          placeholder="Filter by year"
+          value={selectedYear}
+          onChange={handleYearChange}
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
     </div>
   );
 };
