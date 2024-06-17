@@ -15,6 +15,7 @@ function App() {
   const [searchString, setSearchString] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
+  const [selectedRating, setSelectedRating] = useState("");
 
   const fetchMovies = async () => {
     setLoading(true);
@@ -61,8 +62,8 @@ function App() {
   }, [currentPage]);
 
   useEffect(() => {
-    filterMoviesByGenreAndYear();
-  }, [movies, selectedGenre, selectedYear]);
+    filterMoviesByGenreAndYearAndRating();
+  }, [movies, selectedGenre, selectedYear, selectedRating]);
 
   const handlePageChange = (page: number) => {
     setSearchString("");
@@ -86,15 +87,20 @@ function App() {
 
   const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedGenre(e.target.value);
-    filterMoviesByGenreAndYear();
+    filterMoviesByGenreAndYearAndRating();
   };
 
   const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedYear(e.target.value);
-    filterMoviesByGenreAndYear();
+    filterMoviesByGenreAndYearAndRating();
   };
 
-  const filterMoviesByGenreAndYear = () => {
+  const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedRating(e.target.value);
+    filterMoviesByGenreAndYearAndRating();
+  };
+
+  const filterMoviesByGenreAndYearAndRating = () => {
     let filteredMovies = movies;
 
     if (selectedGenre !== "") {
@@ -106,6 +112,12 @@ function App() {
     if (selectedYear !== "") {
       filteredMovies = filteredMovies.filter((movie) =>
         movie.Year.includes(selectedYear)
+      );
+    }
+
+    if (selectedRating !== "") {
+      filteredMovies = filteredMovies.filter(
+        (movie) => parseFloat(movie.imdbRating) === parseFloat(selectedRating)
       );
     }
 
@@ -132,6 +144,8 @@ function App() {
               setSelectedGenre={setSelectedGenre}
               selectedYear={selectedYear}
               setSelectedYear={setSelectedYear}
+              selectedRating={selectedRating}
+              setSelectedRating={setSelectedRating}
             />
 
             {searchString ? (
