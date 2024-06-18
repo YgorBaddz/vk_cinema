@@ -10,6 +10,10 @@
 }
 
 @layer utilities {
+  .flexCenter {
+    @apply flex items-center justify-center;
+  }
+
   .pagination {
     @apply sticky top-0 mt-2 z-10 bg-[#004696] flex justify-center text-center text-white flex-col;
   }

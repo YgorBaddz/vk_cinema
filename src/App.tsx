@@ -56,7 +56,9 @@ function App() {
       console.error("Error fetching movies:", error);
     }
 
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
 
   useEffect(() => {
