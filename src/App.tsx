@@ -7,6 +7,7 @@ import MovieFilter from "./components/MovieFilter";
 import MovieList from "./components/MovieList";
 import NoMoviesFound from "./components/helpers/NoMoviesFound";
 import Loading from "./components/helpers/Loading";
+import pageTransition from "./animations/pageTransition";
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -139,5 +140,4 @@ function App() {
     </main>
   );
 }
-
-export default App;
+export default pageTransition(App);

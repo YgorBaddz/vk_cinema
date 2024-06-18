@@ -5,6 +5,7 @@ import { Movie } from "../types/Types";
 import { APIKey } from "../api/APIKey";
 import { fakeMovies } from "../helpers/FakeData";
 import Loading from "../components/helpers/Loading";
+import pageTransition from "../animations/pageTransition";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -76,4 +77,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default pageTransition(MovieDetails);
