@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Movie } from "../types/Types";
 import { APIKey } from "../api/APIKey";
-import { fakeMovies } from "../helpers/FakeData";
 import Loading from "../components/helpers/Loading";
 import pageTransition from "../animations/pageTransition";
 
