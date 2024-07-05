@@ -19,7 +19,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://www.omdbapi.com/?i=${id}&apikey=${APIKey}`)
+      .get(`https://www.omdbapi.com/?i=${id}&apikey=${APIKey}`)
       .then((res) => {
         setMovie(res.data);
       })

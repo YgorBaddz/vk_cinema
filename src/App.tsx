@@ -25,14 +25,14 @@ function App() {
 
     try {
       const response = await axios.get(
-        `http://www.omdbapi.com/?s=movie&apikey=${APIKey}&page=${currentPage}`
+        `https://www.omdbapi.com/?s=movie&apikey=${APIKey}&page=${currentPage}`
       );
 
       if (response.data.Search) {
         const movieDetails = await Promise.all(
           response.data.Search.map(async (movie: any) => {
             const detailsResponse = await axios.get(
-              `http://www.omdbapi.com/?i=${movie.imdbID}&apikey=${APIKey}`
+              `https://www.omdbapi.com/?i=${movie.imdbID}&apikey=${APIKey}`
             );
             return {
               ...movie,

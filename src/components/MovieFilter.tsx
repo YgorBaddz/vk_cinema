@@ -33,7 +33,7 @@ const MovieFilter: React.FC<MovieFilterProps> = ({
           const movieDetails = await Promise.all(
             response.data.Search.map(async (movie: any) => {
               const detailsResponse = await axios.get(
-                `http://www.omdbapi.com/?i=${movie.imdbID}&apikey=${APIKey}`
+                `https://www.omdbapi.com/?i=${movie.imdbID}&apikey=${APIKey}`
               );
               return {
                 ...movie,
